@@ -25,7 +25,7 @@ function buildBaseLists({ landing, lowCost, countryInfo }) {
 
     // defaultSelector (选择节点 组里展示的候选) 
     // 故障转移, 落地节点(可选), 各地区节点, 低倍率节点(可选), 手动选择, DIRECT
-    const selector = ["故障转移"]; // 把 fallback 放在最前
+    const selector = ["所有节点", "故障转移"]; // 把 fallback 放在最前
     if (landing) selector.push("落地节点");
     selector.push(...countryGroupNames);
     if (lowCost) selector.push("低倍率节点");
@@ -44,7 +44,7 @@ function buildBaseLists({ landing, lowCost, countryInfo }) {
         defaultProxiesDirect.splice(1 + countryGroupNames.length, 0, "低倍率节点");
     }
 
-    const defaultFallback = [];
+    const defaultFallback = ["所有节点"];
     if (landing) defaultFallback.push("落地节点");
     defaultFallback.push(...countryGroupNames);
     if (lowCost) defaultFallback.push("低倍率节点");
@@ -583,6 +583,13 @@ function buildProxyGroups({
                 "REJECT", "直连"
             ]
         },
+        {
+            "name": "所有节点",
+            "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png",
+            "type": "url-test",
+            "hidden": true,
+            "include-all": true,
+        },
         (lowCost) ? {
             "name": "低倍率节点",
             "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Lab.png",
@@ -612,6 +619,8 @@ function main(config) {
 
     // 为地区构建对应的 url-test / load-balance 组
     const countryProxyGroups = buildCountryProxyGroups(targetCountryList.map(n => n.replace(/节点$/, '')));
+    // 添加全节点自动选择
+
 
     // 生成代理组
     const proxyGroups = buildProxyGroups({
