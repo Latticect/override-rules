@@ -25,7 +25,7 @@ function buildBaseLists({ landing, lowCost, countryInfo }) {
 
     // defaultSelector (选择节点 组里展示的候选) 
     // 故障转移, 落地节点(可选), 各地区节点, 低倍率节点(可选), 手动选择, DIRECT
-    const selector = ["所有节点", "故障转移"]; // 把 fallback 放在最前
+    const selector = ["优中选优", "故障转移","所有节点"]; // 把 fallback 放在最前
     if (landing) selector.push("落地节点");
     selector.push(...countryGroupNames);
     if (lowCost) selector.push("低倍率节点");
@@ -44,12 +44,12 @@ function buildBaseLists({ landing, lowCost, countryInfo }) {
         defaultProxiesDirect.splice(1 + countryGroupNames.length, 0, "低倍率节点");
     }
 
-    const defaultFallback = ["所有节点"];
+    const defaultFallback = [];
     if (landing) defaultFallback.push("落地节点");
     defaultFallback.push(...countryGroupNames);
     if (lowCost) defaultFallback.push("低倍率节点");
     // 可选是否加入 手动选择 / DIRECT；按容灾语义加入。
-    defaultFallback.push("手动选择", "DIRECT");
+    defaultFallback.push("手动选择","所有节点", "DIRECT");
 
     return { defaultProxies, defaultProxiesDirect, defaultSelector: selector, defaultFallback, countryGroupNames };
 }
@@ -437,6 +437,8 @@ function buildProxyGroups({
     const frontProxySelector = [
         ...defaultSelector.filter(name => name !== "落地节点" && name !== "故障转移")
     ];
+    
+    const countryGroupNames = countryProxyGroups.map(item => item.name)
 
     return [
         {
@@ -590,6 +592,15 @@ function buildProxyGroups({
             "type": "url-test",
             "hidden": true,
             "include-all-proxies": true,
+            "interval": 300,
+            "tolerance": 100
+        },
+        {
+            "name": "优中选优",
+            "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png",
+            "type": "url-test",
+            "hidden": true,
+            "proxies": countryGroupNames,
             "interval": 300,
             "tolerance": 100
         },
