@@ -589,7 +589,9 @@ function buildProxyGroups({
             "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png",
             "type": "url-test",
             "hidden": true,
-            "include-all": true,
+            "include-all-proxies": true,
+            "interval": 300,
+            "tolerance": 100
         },
         (lowCost) ? {
             "name": "低倍率节点",
