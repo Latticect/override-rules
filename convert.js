@@ -545,6 +545,12 @@ function buildProxyGroups({
             "proxies": (hasUS) ? ["美国节点", "选择节点", "手动选择"] : defaultProxies
         },
         {
+            "name": "国外社交",
+            "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png",
+            "type": "select",
+            "proxies": defaultProxies
+        },
+        {
             "name": "Bahamut",
             "icon": "https://cdn.jsdmirror.com/gh/Koolson/Qure@master/IconSet/Color/Bahamut.png",
             "type": "select",
