@@ -136,6 +136,10 @@ const rules = [
     "RULE-SET,TikTok,TikTok",
     "RULE-SET,SteamFix,直连",
     "RULE-SET,GoogleFCM,直连",
+    "DOMAIN,cn.bing.com,直连",
+    "GEOSITE,MICROSOFT@CN,直连",
+    "GEOSITE,microsoft,微软",
+    "GEOSITE,category-ai-!cn,AI",
     "GEOSITE,category-social-media-!cn,国外社交",
     "GEOSITE,category-games@cn,直连",
     "GEOSITE,GOOGLE-PLAY@CN,直连",
@@ -145,7 +149,7 @@ const rules = [
     "GEOSITE,SPOTIFY,Spotify",
     "GEOSITE,BAHAMUT,Bahamut",
     "GEOSITE,BILIBILI,Bilibili",
-    "GEOSITE,MICROSOFT@CN,直连",
+
     "GEOSITE,PIKPAK,PikPak",
     "GEOSITE,GFW,选择节点",
     "GEOSITE,CN,直连",
@@ -547,7 +551,13 @@ function buildProxyGroups({
         },
         {
             "name": "国外社交",
-            "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png",
+            "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png",
+            "type": "select",
+            "proxies": defaultProxies
+        },
+        {
+            "name": "微软",
+            "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png",
             "type": "select",
             "proxies": defaultProxies
         },
