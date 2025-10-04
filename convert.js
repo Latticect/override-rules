@@ -691,6 +691,13 @@ function main(config) {
     const countryInfo = parseCountries(config); // [{ country, count }]
     const lowCost = hasLowCost(config);
 
+
+    //基础数组添加自定义分组
+    defaultSelector.push(...customGroups.map(n=>n.name));
+    defaultProxies.push(...customGroups.map(n=>n.name));
+    defaultFallback.push(...customGroups.map(n=>n.name));
+
+
     // 构建基础数组
     const {
         defaultProxies,
