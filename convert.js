@@ -18,7 +18,7 @@ const loadBalance = parseBool(inArg.loadbalance) || false,
     keepAliveEnabled = parseBool(inArg.keepalive) || false,
     fakeIPEnabled = parseBool(inArg.fakeip) || false;
 
-function buildBaseLists({ landing, lowCost, countryInfo }) {
+function buildBaseLists({ landing, lowCost, countryInfo, customGroupsName }) {
     const countryGroupNames = countryInfo
         .filter(item => item.count > 2)
         .map(item => item.country + "节点");
@@ -29,11 +29,11 @@ function buildBaseLists({ landing, lowCost, countryInfo }) {
     if (landing) selector.push("落地节点");
     selector.push(...countryGroupNames);
     if (lowCost) selector.push("低倍率节点");
-    selector.push("手动选择", "DIRECT");
+    selector.push(...customGroupsName,"手动选择", "DIRECT");
 
     // defaultProxies (各分类策略引用) 
     // 选择节点, 各地区节点, 低倍率节点(可选), 手动选择, 直连
-    const defaultProxies = ["选择节点", ...countryGroupNames];
+    const defaultProxies = ["选择节点", ...countryGroupNames,...customGroupsName];
     if (lowCost) defaultProxies.push("低倍率节点");
     defaultProxies.push("手动选择", "直连");
 
@@ -49,7 +49,7 @@ function buildBaseLists({ landing, lowCost, countryInfo }) {
     defaultFallback.push(...countryGroupNames);
     if (lowCost) defaultFallback.push("低倍率节点");
     // 可选是否加入 手动选择 / DIRECT；按容灾语义加入。
-    defaultFallback.push("手动选择","所有节点", "DIRECT");
+    defaultFallback.push(...customGroupsName,"手动选择","所有节点", "DIRECT");
 
     return { defaultProxies, defaultProxiesDirect, defaultSelector: selector, defaultFallback, countryGroupNames };
 }
@@ -691,13 +691,7 @@ function main(config) {
     const countryInfo = parseCountries(config); // [{ country, count }]
     const lowCost = hasLowCost(config);
 
-
-    //基础数组添加自定义分组
-    defaultSelector.push(...customGroups.map(n=>n.name));
-    defaultProxies.push(...customGroups.map(n=>n.name));
-    defaultFallback.push(...customGroups.map(n=>n.name));
-
-
+    const customGroupsName = customGroups.map(n=>n.name)
     // 构建基础数组
     const {
         defaultProxies,
@@ -705,8 +699,8 @@ function main(config) {
         defaultSelector,
         defaultFallback,
         countryGroupNames: targetCountryList
-    } = buildBaseLists({ landing, lowCost, countryInfo });
-
+    } = buildBaseLists({ landing, lowCost, countryInfo,customGroupsName  });
+ 
     // 为地区构建对应的 url-test / load-balance 组
     const countryProxyGroups = buildCountryProxyGroups(targetCountryList.map(n => n.replace(/节点$/, '')));
     // 添加全节点自动选择
