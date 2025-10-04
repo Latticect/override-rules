@@ -633,8 +633,60 @@ function buildProxyGroups({
     ].filter(Boolean); // 过滤掉 null 值
 }
 
+function buildCustomGroups(config){
+    //过滤出有名字中有#号的，这是有自定义分组的
+    config = config.proxies || []
+    var hasCustom = config.filter(n=>n.name.indexOf("#")!=-1);
+    //开始构建代理组，cf-ws#me?type=fallback。
+    //先进行分组
+    var groups  = {}
+    hasCustom.forEach(n=>{ 
+        //取出#和?中间的，如果没有?则返回#号后的
+        var groupName = n.name.split("#")[1].split("?")[0];
+        if(!groups[groupName]){
+            groups[groupName] = [];
+        }
+        groups[groupName].push(n.name);
+    });
+    //构建代理组，需要处理参数
+    return Object.keys(groups).map(n=>{
+        var params = getParams(groups[n][0].split("?")[1])
+        var obj = {
+            "name": n,
+            "type": params["type"] || "fallback",
+            "icon": params["icon"] || "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png",
+            "proxies": groups[n].map(n=>n.split("#")[0])
+        }
+        console.log(params)
+        Object.keys(params).forEach(k=>obj[k] = params[k])
+        return obj;
+    });
+}
+function getParams(params){
+    var params = params.split("&");
+    var result = {};
+    params.forEach(n=>{
+        var kv = n.split("=");
+        result[kv[0]] = kv[1];
+    });
+    return result;
+}
+function getParam(params, name){
+    var result = getParams(params)
+    return result[name];
+}
+
+function removeCustomGroupsProxyName(config){
+    config = config.proxies || []
+    return config.forEach(n=>n.name = n.name.split("#")[0]);
+}
+
+
 function main(config) {
     config = { proxies: config.proxies };
+    // 获取自定义分组
+    const customGroups = buildCustomGroups(config);
+    removeCustomGroupsProxyName(config);
     // 解析地区与低倍率信息
     const countryInfo = parseCountries(config); // [{ country, count }]
     const lowCost = hasLowCost(config);
@@ -661,8 +713,9 @@ function main(config) {
         defaultProxies,
         defaultProxiesDirect,
         defaultSelector,
-        defaultFallback
+        defaultFallback,
     });
+    proxyGroups.push(...customGroups);
     const globalProxies = proxyGroups.map(item => item.name);
     
     proxyGroups.push(
