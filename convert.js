@@ -127,6 +127,8 @@ const rules = [
     "RULE-SET,AdditionalFilter,广告拦截",
     "RULE-SET,SogouInput,搜狗输入法",
     "RULE-SET,TruthSocial,Truth Social",
+    "GEOSITE,cloudflare-cn,直连",
+    "GEOSITE,cloudflare,CloudFlare",
     "RULE-SET,StaticResources,静态资源",
     "RULE-SET,CDNResources,静态资源",
     "RULE-SET,AdditionalCDNResources,静态资源",
@@ -485,6 +487,12 @@ function buildProxyGroups({
         },
         {
             "name": "静态资源",
+            "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png",
+            "type": "select",
+            "proxies": defaultProxies,
+        },
+        {
+            "name": "CloudFlare",
             "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png",
             "type": "select",
             "proxies": defaultProxies,
