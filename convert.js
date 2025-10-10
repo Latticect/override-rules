@@ -138,6 +138,7 @@ const rules = [
     "RULE-SET,TikTok,TikTok",
     "RULE-SET,SteamFix,直连",
     "RULE-SET,GoogleFCM,直连",
+    "GEOSITE,github,Github",
     "DOMAIN,cn.bing.com,直连",
     "GEOSITE,MICROSOFT@CN,直连",
     "GEOSITE,microsoft,微软",
@@ -560,6 +561,12 @@ function buildProxyGroups({
         {
             "name": "国外社交",
             "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Twitter.png",
+            "type": "select",
+            "proxies": defaultProxies
+        },
+        {
+            "name": "Github",
+            "icon": "https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png",
             "type": "select",
             "proxies": defaultProxies
         },
