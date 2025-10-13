@@ -200,14 +200,6 @@ const dnsConfig = {
         "system",
         "223.5.5.5",
         "119.29.29.29",
-        "180.184.1.1",
-    ],
-    "fallback": [
-        "quic://dns0.eu",
-        "https://dns.cloudflare.com/dns-query",
-        "https://dns.sb/dns-query",
-        "tcp://208.67.222.222",
-        "tcp://8.26.56.2"
     ],
     "proxy-server-nameserver": [
         "quic://223.5.5.5",
@@ -240,14 +232,6 @@ const dnsConfig2 = {
         "system",
         "223.5.5.5",
         "119.29.29.29",
-        "180.184.1.1",
-    ],
-    "fallback": [
-        "quic://dns0.eu",
-        "https://dns.cloudflare.com/dns-query",
-        "https://dns.sb/dns-query",
-        "tcp://208.67.222.222",
-        "tcp://8.26.56.2"
     ],
     "proxy-server-nameserver": [
         "quic://223.5.5.5",
